@@ -1,0 +1,3 @@
+config = sc.SparkConf().setAll([('spark.executor.memory', '16g'), ('spark.executor.cores', '6'), ('spark.cores.max', '8'), ('spark.driver.memory','16g')])
+sc.stop()
+sc = pyspark.SparkContext(conf=config)
