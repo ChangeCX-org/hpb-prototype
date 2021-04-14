@@ -72,10 +72,6 @@ title2_df = TitlesGrouper.get_sparkdf()
                                 #select("title","title",\
                                 #text_similarity_UDF1("title","title").alias("Similarity_Score"))
 
-title1_df.join(title2_df, \
-    title1_df.author == title2_df.author).select(title1_df.title).show(2,False)
-
-
 
 '''
 The logic of comparison goes like this
