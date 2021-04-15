@@ -104,7 +104,7 @@ df_77percent = TitlesGrouper.get_spark().sql("select source.source_title,source.
 df_77percent = df_77percent.where(df_77percent.similarity_score > 77)
 df_77percent.show(50,False)
 df_77percent.createOrReplaceTempView("Similarity_For_Titles")
-df_77percent.coalesce(1).write.csv('Similarity_For_Titles_Over77Pct.csv')
+df_77percent.write.csv('Similarity_For_Titles_Over77Pct.csv')
 #final_df = TitlesGrouper.get_spark().sql("select source_title,source_author,similarity_score,count(similar_title) as similar_title_count \
  #                                       from Similarity_For_Titles \
   #                                      group by \
