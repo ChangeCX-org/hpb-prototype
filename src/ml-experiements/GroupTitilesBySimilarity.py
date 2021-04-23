@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 from pyspark import SQLContext
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import udf,count
+from pyspark.sql.functions import udf,count,col,expr
 from pyspark.sql.types import FloatType,StructField, StructType, StringType, MapType
 from pyspark.sql.types import array
 
@@ -73,6 +73,7 @@ title2_df = TitlesGrouper.get_sparkdf()
                                 #text_similarity_UDF1("title","title").alias("Similarity_Score"))
 
 
+
 '''
 The logic of comparison goes like this
 For each title in title2_df get list of titles from title_df_as_array where
@@ -95,13 +96,14 @@ authorwise_titlecountdf.createOrReplaceTempView("Authorwise_TitleCount")
 title_df_as_array = authorwise_titlecountdf.withColumn("SimilarTitles_over_77Percent",F.array())
 title_df_as_array.printSchema()
 title_df_as_array.createOrReplaceTempView("title_with_similarities_over77pct")
-df_77percent = TitlesGrouper.get_spark().sql("select source.source_title,source.source_author,77pct.source_title as similar_title,\
+df_77percent = TitlesGrouper.get_spark().sql("select source.source_title,source.source_author,source.title_count,77pct.source_title as similar_title,\
                             text_similarity_UDF_linear(source.source_title,77pct.source_title)*100 as similarity_score \
                             from Authorwise_TitleCount source,title_with_similarities_over77pct 77pct \
                             where source.source_author=77pct.source_author \
                             and source.source_title != 77pct.source_title")
 
 df_77percent = df_77percent.where(df_77percent.similarity_score > 77)
+
 df_77percent.show(50,False)
 df_77percent.createOrReplaceTempView("Similarity_For_Titles")
 df_77percent.write.csv('Similarity_For_Titles_Over77Pct.csv')
