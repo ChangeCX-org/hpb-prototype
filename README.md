@@ -11,5 +11,5 @@
 <ul> 
   <li> Ensure the file curated_book_short.csv is created which is of format csv and has following headers (id,title,author,author_id,author_bio,authors,title_slug,author_slug,isbn13,isbn10,price,format,publisher,pubdate,edition,subjects,pages,dimensions) </li>
   <li>cd src/ml-experiements</li>
-  <li> py GroupTitlesBySimilarity.py</li>
+  <li> python GroupTitlesBySimilarity.py</li>
 </ul>
